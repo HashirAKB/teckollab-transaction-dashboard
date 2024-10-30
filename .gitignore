@@ -1,0 +1,9 @@
+backend/prisma/sampleData.ts
+backend/prisma/migrations/*
+backend/node_modules/*
+frontend/node_modules/*
+backend/dist/*
+frontend/dist/*
+cmds
+frontend ui dark theme figma mockup.png
+frontend ui light theme figma mockup.png
