@@ -8,6 +8,20 @@
 
 A full-stack web application for managing and visualizing transaction data. Features a modern React frontend with a responsive data table and a robust Node.js backend powered by Express and Prisma ORM.
 
+## 📡 Deployment URLs
+- Frontend Application: https://txndashboard.azurewebsites.net/
+- Backend API: https://txndashboard-backend.azurewebsites.net/api/transactions
+
+> **⚠️ Important Note About Data Loading**
+>
+> If you experience issues with data not displaying initially, this is likely because the server is in sleep mode. To optimize costs, the backend server is configured to sleep after 15 minutes of inactivity. To resolve this:
+>
+> 1. Reload the application 2-3 times
+> 2. Wait approximately 30 seconds for the server to wake up
+> 3. The data should then load normally
+>
+> This behavior only affects the initial load after a period of inactivity. Once the server is awake, it will respond normally to all requests.
+
 ## 🌟 Features
 
 ### Frontend
