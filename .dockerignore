@@ -1,3 +1,9 @@
+node_modules
+# Keep environment variables out of version control
+.env
+dist
+backend/.env
+frontend/.env
 backend/prisma/sampleData.ts
 backend/prisma/migrations/*
 backend/node_modules/*
@@ -9,4 +15,3 @@ frontend ui dark theme figma mockup.png
 frontend ui light theme figma mockup.png
 frontend/tsconfig.app.tsbuildinfo
 frontend/tsconfig.node.tsbuildinfo
-.env
