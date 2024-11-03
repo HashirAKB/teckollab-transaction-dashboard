@@ -1,4 +1,3 @@
-// File: TransactionDataTable.tsx
 import React from "react";
 import {
   flexRender,
@@ -7,6 +6,7 @@ import {
   getSortedRowModel,
   SortingState,
   useReactTable,
+  Table as TableInstance,
 } from "@tanstack/react-table";
 import {
   Table,
@@ -22,38 +22,60 @@ import { TableSkeleton, ErrorAlert } from "@/components/ui/TableSkeleton";
 import { getTransactionColumns } from "./TransactionColumns";
 import { TransactionDataTableProps } from "@/types/transaction";
 
-// - Extracted table content into a separate component to isolate renders
-// - Used React.memo to prevent unnecessary re-renders when parent props haven't changed
-const TableContent = React.memo(({ 
-  table, 
-  columns, 
-  theme 
-}: { 
-  table: any; 
-  columns: any[]; 
+// Improved interface for TableContent props
+interface TableContentProps {
+  data: any[];
+  sorting: SortingState;
+  onSortingChange: (sorting: SortingState) => void;
   theme: any;
-}) => {
-  //Add render counting in development
-  React.useEffect(() => {
-    if (process.env.NODE_ENV === 'development') {
-      console.log('TableContent render count:', {
-        rowCount: table.getRowModel().rows.length,
-        timestamp: new Date().toISOString()
-      });
-    }
+}
+
+// Redesigned TableContent component with direct sorting control
+const TableContent = React.memo(({ 
+  data,
+  sorting,
+  onSortingChange,
+  theme 
+}: TableContentProps) => {
+  const { dataTable } = theme.table;
+
+  // Create columns inside the TableContent to ensure proper sorting handlers
+  const columns = React.useMemo(
+    () => getTransactionColumns(theme),
+    [theme]
+  );
+  
+  // Create table instance within TableContent
+  const table = useReactTable({
+    data,
+    columns,
+    state: {
+      sorting,
+    },
+    onSortingChange,
+    getCoreRowModel: getCoreRowModel(),
+    getSortedRowModel: getSortedRowModel(),
   });
 
-  const { dataTable } = theme.table;
-  
+  // Development logging
+  React.useEffect(() => {
+    if (process.env.NODE_ENV === 'development') {
+      console.log('TableContent render', {
+        rowCount: data.length,
+        sortingState: sorting,
+      });
+    }
+  }, [data.length, sorting]);
+
   return (
     <Table>
       <TableHeader className={dataTable.header.base}>
-        {table.getHeaderGroups().map((headerGroup: any) => (
+        {table.getHeaderGroups().map((headerGroup) => (
           <TableRow 
             key={headerGroup.id} 
             className={dataTable.header.row}
           >
-            {headerGroup.headers.map((header: any) => (
+            {headerGroup.headers.map((header) => (
               <TableHead 
                 key={header.id}
                 className={dataTable.header.cell}
@@ -71,12 +93,12 @@ const TableContent = React.memo(({
       </TableHeader>
       <TableBody>
         {table.getRowModel().rows?.length ? (
-          table.getRowModel().rows.map((row: any) => (
+          table.getRowModel().rows.map((row) => (
             <TableRow
               key={row.id}
               className={dataTable.body.row}
             >
-              {row.getVisibleCells().map((cell: any) => (
+              {row.getVisibleCells().map((cell) => (
                 <TableCell 
                   key={cell.id} 
                   className={dataTable.body.cell}
@@ -104,50 +126,32 @@ const TableContent = React.memo(({
   );
 });
 
-// - Memoized the entire component to prevent unnecessary re-renders from parent
+// Main component focused on state management
 const TransactionDataTable = React.memo(({
   data,
   isLoading,
   isError,
   className = "",
 }: TransactionDataTableProps) => {
-  //Development logging
-  React.useEffect(() => {
-    if (process.env.NODE_ENV === 'development') {
-      console.log("TransactionDataTable rendered", {
-        dataLength: data?.length,
-        isLoading,
-        isError,
-        timestamp: new Date().toISOString()
-      });
-    }
-  });
-
+  // Sorting state in parent component
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const { dataTable } = theme.table;
-  
-  // - Added theme to dependencies array to properly handle theme changes
-  const columns = React.useMemo(
-    () => getTransactionColumns(theme),
-    [theme]
-  );
 
-  const table = useReactTable({
-    data,
-    columns,
-    getCoreRowModel: getCoreRowModel(),
-    getPaginationRowModel: getPaginationRowModel(),
-    getSortedRowModel: getSortedRowModel(),
-    onSortingChange: setSorting,
-    state: {
-      sorting,
-    },
-    initialState: {
-      pagination: {
-        pageSize: 100,
-      },
-    },
-  });
+  // Development logging
+  React.useEffect(() => {
+    if (process.env.NODE_ENV === 'development') {
+      console.log("TransactionDataTable state update", {
+        sorting,
+        dataLength: data?.length,
+      });
+    }
+  }, [sorting, data]);
+
+  // Memoized sorting handler
+  const handleSortingChange = React.useCallback((updatedSorting: SortingState) => {
+    console.log('Sorting changed:', updatedSorting);
+    setSorting(updatedSorting);
+  }, []);
 
   if (isLoading) return <TableSkeleton />;
   if (isError) return <ErrorAlert />;
@@ -156,8 +160,9 @@ const TransactionDataTable = React.memo(({
     <div className={`${dataTable.wrapper} ${className}`}>
       <ScrollArea className={dataTable.scrollArea}>
         <TableContent 
-          table={table}
-          columns={columns}
+          data={data}
+          sorting={sorting}
+          onSortingChange={handleSortingChange}
           theme={theme}
         />
         <ScrollBar orientation="horizontal" />
