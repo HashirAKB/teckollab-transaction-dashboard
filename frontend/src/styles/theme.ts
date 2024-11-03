@@ -11,7 +11,7 @@ export const theme = {
     content: {
       wrapper: "flex-1 flex flex-col",
       table: "flex-1 overflow-hidden",
-      pagination: "mt-4 flex items-center justify-end "
+      pagination: "mt-2 sm:mt-4 flex items-center justify-end "
     }
   },
     table: {
@@ -120,25 +120,26 @@ export const theme = {
       },
       header: {
         wrapper: `
-          flex flex-col sm:flex-row justify-between items-start sm:items-center 
-          gap-4 sm:gap-6 p-4 sm:p-2
+          flex flex-col gap-3 p-3
+          sm:flex-row sm:items-center sm:justify-between sm:gap-6 sm:p-4
+          border-b border-table-border dark:border-table-dark-border
         `,
         controls: {
-          group: "flex flex-col sm:flex-row items-start sm:items-center gap-4 sm:gap-6 w-full sm:w-auto",
+          group: "flex flex-col gap-3 w-full sm:flex-row sm:items-center sm:w-auto",
           entries: {
-            wrapper: "flex items-center space-x-3",
+            wrapper: "flex items-center gap-2",
             label: "text-sm text-text-primary font-medium dark:text-text-dark-primary whitespace-nowrap",
             select: {
-              trigger: "w-[72px] h-10 bg-table-header dark:bg-table-dark-header dark:text-text-dark-primary",
+              trigger: "w-[70px] h-9 bg-table-header dark:bg-table-dark-header dark:text-text-dark-primary",
               content: "bg-white shadow-md dark:text-text-dark-primary",
               item: "bg-white cursor-pointer dark:bg-table-dark-bg dark:text-text-dark-primary hover:bg-gray-100 dark:hover:bg-gray-700"
             }
           },
           search: {
-            wrapper: "relative flex-1 sm:flex-none",
-            icon: "absolute left-3 top-1/2 transform -translate-y-1/2 text-text-light h-4 w-4",
+            wrapper: "relative w-full sm:w-[280px]",
+            icon: "absolute left-2.5 top-1/2 transform -translate-y-1/2 text-text-light h-4 w-4",
             input: `
-              w-full sm:w-[280px] h-10 pl-10 
+              w-full h-9 pl-9
               border-table-border 
               dark:bg-table-dark-bg dark:text-text-dark-primary dark:border-table-bg
               focus:ring-2 focus:ring-primary/20
@@ -146,15 +147,16 @@ export const theme = {
           }
         },
         actions: {
-          wrapper: "flex items-center gap-3 ml-auto",
+          wrapper: "flex items-center",
           button: {
             base: `
-              h-10 px-4 
+              h-9 
               bg-primary hover:bg-cyan-800 
               text-white 
               flex items-center gap-2 
               dark:hover:bg-table-dark-hover
               transition-colors
+              px-3 sm:px-4
             `,
             icon: "h-4 w-4",
             text: "hidden sm:inline-block"
@@ -176,15 +178,15 @@ export const theme = {
     },
     // Pagination
     pagination: {
-      wrapper: "flex items-center justify-center px-3 py-3",
-      content: "flex items-center gap-2",
+      wrapper: "flex items-center px-2 py-2 sm:px-3 sm:py-3",
+      content: "flex items-center gap-1 sm:gap-2",
       item: {
         base: "h-9 w-9 rounded-md flex items-center justify-center transition-colors",
         active: "bg-primary text-white",
         inactive: "bg-gray-100 dark:bg-table-dark-hover text-text-primary dark:text-text-dark-primary hover:bg-gray-200",
       },
       navigation: {
-        base: "px-2 transition-colors",
+        base: "px-1 sm:px-2 transition-colors",
         text: "text-text-secondary dark:text-text-dark-secondary hover:text-text-primary dark:hover:text-text-dark-primary",
         disabled: "opacity-50 pointer-events-none",
       },

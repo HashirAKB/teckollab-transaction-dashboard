@@ -17,9 +17,16 @@ const PaginationControls = ({
   const { pagination } = theme;
   
   const getPageNumbers = () => {
-    const delta = 2;
+    const delta = window.innerWidth < 640 ? 1 : 2;
     const range = [];
     const rangeWithDots = [];
+
+    // Limit visible pages on mobile
+    if (window.innerWidth < 640) {
+      if (currentPage <= 2) return [1, 2, 'dots', totalPages];
+      if (currentPage >= totalPages - 1) return [1, 'dots', totalPages - 2, totalPages - 1, totalPages];
+      return [1, 'dots', currentPage, 'dots', totalPages];
+    }
 
     for (
       let i = Math.max(2, currentPage - delta);

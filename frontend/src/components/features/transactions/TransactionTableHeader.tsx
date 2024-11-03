@@ -22,8 +22,8 @@ export const TransactionTableHeader = ({
   
   return (
     <div className={`${header.wrapper} ${className}`}>
-      <div className={header.controls.group}>
-        <div className={header.wrapper}>
+      <div className="flex items-center justify-between w-full sm:w-auto">
+      <div className={header.controls.entries.wrapper}>
           <span className={header.controls.entries.label}>Show</span>
           <Select
             defaultValue="10"
@@ -46,7 +46,12 @@ export const TransactionTableHeader = ({
           </Select>
           <span className={header.controls.entries.label}>entries</span>
         </div>
+        <div className="sm:hidden">
+          <ThemeToggle />
+        </div>
+        </div>
 
+        <div className="flex items-center gap-2 w-full sm:flex-1 sm:justify-end">
         <div className={header.controls.search.wrapper}>
           <Search className={header.controls.search.icon} />
           <Input
@@ -55,9 +60,9 @@ export const TransactionTableHeader = ({
             className={header.controls.search.input}
           />
         </div>
-      </div>
-      <div className={header.actions.wrapper}>
-        <ThemeToggle />
+        <div className="hidden sm:block">
+          <ThemeToggle />
+        </div>   
         <Button 
           onClick={onAddCustomer}
           className={header.actions.button.base}
