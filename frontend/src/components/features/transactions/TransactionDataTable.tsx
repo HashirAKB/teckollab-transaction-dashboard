@@ -2,11 +2,9 @@ import React from "react";
 import {
   flexRender,
   getCoreRowModel,
-  getPaginationRowModel,
   getSortedRowModel,
   SortingState,
   useReactTable,
-  Table as TableInstance,
 } from "@tanstack/react-table";
 import {
   Table,
@@ -52,6 +50,7 @@ const TableContent = React.memo(({
     state: {
       sorting,
     },
+    //@ts-ignore
     onSortingChange,
     getCoreRowModel: getCoreRowModel(),
     getSortedRowModel: getSortedRowModel(),
