@@ -11,6 +11,7 @@ A full-stack web application for managing and visualizing transaction data. Feat
 ## 📡 Deployment URLs
 - Frontend Application: https://txndashboard.azurewebsites.net/
 - Backend API: https://txndashboard-backend.azurewebsites.net/api/transactions
+- Detailed Notion Doc: https://rapid-xenon-ca5.notion.site/Technical-Assessment-Discussion-13476718347a80a48d29f263fcbc952c
 
 > **⚠️ Important Note About Data Loading**
 >
